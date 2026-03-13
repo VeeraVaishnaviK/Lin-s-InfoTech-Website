@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import LenisProvider from "@/components/animations/LenisProvider";
 import ScrollProgress from "@/components/animations/ScrollProgress";
+import Preloader from "@/components/animations/Preloader";
+import CustomCursor from "@/components/animations/CustomCursor";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +23,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <Preloader />
+          <CustomCursor />
           <LenisProvider>
             <ScrollProgress />
             {children}
