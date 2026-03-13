@@ -8,6 +8,7 @@ import Preloader from '@/components/animations/Preloader';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import PageTransition from '@/components/animations/PageTransition';
+import GlobalChatbot from '@/components/animations/GlobalChatbot';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -26,6 +27,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </PageTransition>
             </main>
             <Footer />
+            <GlobalChatbot />
         </LenisProvider>
     );
 };
