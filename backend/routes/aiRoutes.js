@@ -17,5 +17,4 @@ router.post('/proposal', aiController.proposal);
 router.post('/analyzer', aiController.analyzer);
 router.post('/validator', aiController.validator);
 
-
 module.exports = router;

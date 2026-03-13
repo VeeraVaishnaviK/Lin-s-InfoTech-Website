@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Body
 from pydantic import BaseModel
 from typing import List
 from utils.gemini import get_gemini_model
-from langchain.schema import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage
 import json
 
 router = APIRouter()

@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Body
 from pydantic import BaseModel
 from typing import List, Optional
 from utils.gemini import get_gemini_model
-from langchain.schema import SystemMessage, HumanMessage, AIChatMessage
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 import json
 
 router = APIRouter()
@@ -42,7 +42,7 @@ async def chat(request: ChatRequest = Body(...)):
             if msg["role"] == "user":
                 messages.append(HumanMessage(content=msg["content"]))
             else:
-                messages.append(AIChatMessage(content=msg["content"]))
+                messages.append(AIMessage(content=msg["content"]))
         
         # Add current message
         messages.append(HumanMessage(content=request.message))
@@ -55,4 +55,6 @@ async def chat(request: ChatRequest = Body(...)):
             "role": "ai"
         }
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
