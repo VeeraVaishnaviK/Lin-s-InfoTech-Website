@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  
+  --color-brand-red: #E3000F;
+  --color-brand-red-hover: #FF2D3A;
+  --color-brand-dark-bg: #0A0A0A;
+  --color-brand-card: #111111;
+  --color-brand-border: #1F1F1F;
+}
+
+:root {
+  --background: #0A0A0A;
+  --foreground: #ffffff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E3000F;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF2D3A;
+}
+
+/* Selection */
+::selection {
+  background-color: #E3000F;
+  color: white;
+}
