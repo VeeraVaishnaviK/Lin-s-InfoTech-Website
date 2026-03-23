@@ -23,10 +23,9 @@ def get_gemini_model(model_name="gemini-2.0-flash", temperature=0.7):
         model=model_name,
         google_api_key=GEMINI_API_KEY,
         temperature=temperature,
-        transport="rest"
     )
 
-def get_raw_gemini_model(model_name="gemini-1.5-flash"):
+def get_raw_gemini_model(model_name="gemini-2.0-flash"):
     """
     Returns a raw Google GenerativeAI model for advanced usage.
     """

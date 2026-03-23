@@ -50,12 +50,25 @@ const GlobalChatbot: React.FC = () => {
 
         const userMsg = input.trim();
         setInput('');
-        setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
+
+        const updatedMessages: Message[] = [...messages, { role: 'user', content: userMsg }];
+        setMessages(updatedMessages);
         setIsLoading(true);
 
         try {
-            const response = await api.post(ENDPOINTS.AI_CHATBOT, { message: userMsg });
-            setMessages(prev => [...prev, { role: 'bot', content: response.data.reply || response.data.message || 'I processed your request.' }]);
+            // Build history from all previous messages (exclude the initial bot greeting)
+            const history = updatedMessages
+                .filter((_, i) => i > 0) // skip initial greeting
+                .map(msg => ({
+                    role: msg.role === 'user' ? 'user' : 'ai',
+                    content: msg.content
+                }));
+
+            const response = await api.post(ENDPOINTS.AI_CHATBOT, {
+                message: userMsg,
+                history: history.slice(0, -1) // exclude the current message (sent separately)
+            });
+            setMessages(prev => [...prev, { role: 'bot', content: response.data.response || response.data.reply || 'I processed your request.' }]);
         } catch (error) {
             setMessages(prev => [...prev, { role: 'bot', content: 'Sorry, I am having trouble connecting to my brain right now.' }]);
         } finally {
@@ -107,8 +120,8 @@ const GlobalChatbot: React.FC = () => {
                             >
                                 <div
                                     className={`max-w-[80%] p-3 rounded-2xl text-sm ${msg.role === 'user'
-                                            ? 'bg-[#E3000F] text-white rounded-tr-none'
-                                            : 'bg-[#1F1F1F] text-white/90 rounded-tl-none'
+                                        ? 'bg-[#E3000F] text-white rounded-tr-none'
+                                        : 'bg-[#1F1F1F] text-white/90 rounded-tl-none'
                                         }`}
                                 >
                                     {msg.content}

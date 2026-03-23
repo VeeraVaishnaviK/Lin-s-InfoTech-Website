@@ -1,16 +1,14 @@
 from fastapi import APIRouter, HTTPException, Body
 from pydantic import BaseModel
-from typing import List
 from utils.gemini import get_gemini_model
 from langchain_core.messages import SystemMessage, HumanMessage
 
 router = APIRouter()
 
 class ProposalRequest(BaseModel):
-    businessType: str
-    features: List[str]
-    timeline: str
-    budget: str
+    title: str
+    goals: str
+    audience: str = ""
 
 SYSTEM_PROMPT = """
 You are the Senior Solution Architect at Lin's InfoTech. 
@@ -34,7 +32,9 @@ async def generate_proposal(request: ProposalRequest = Body(...)):
     try:
         model = get_gemini_model(temperature=0.7)
         
-        prompt = f"Business Type: {request.businessType}\nRequired Features: {', '.join(request.features)}\nExpected Timeline: {request.timeline}\nBudget Range: {request.budget}"
+        prompt = f"Project Title: {request.title}\nCore Goals: {request.goals}"
+        if request.audience:
+            prompt += f"\nTarget Audience: {request.audience}"
         
         messages = [
             SystemMessage(content=SYSTEM_PROMPT),
@@ -45,8 +45,15 @@ async def generate_proposal(request: ProposalRequest = Body(...)):
         
         return {
             "success": True,
-            "proposalMarkdown": response.content
+            "proposal": response.content
         }
             
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        error_msg = str(e)
+        if "RESOURCE_EXHAUSTED" in error_msg or "429" in error_msg:
+            return {
+                "success": True,
+                "proposal": "## ⚠️ Rate Limit Reached\n\nI'm sorry, I'm receiving too many requests right now. Please wait a few seconds and try again!",
+                "notice": "rate_limited"
+            }
+        raise HTTPException(status_code=500, detail=error_msg)

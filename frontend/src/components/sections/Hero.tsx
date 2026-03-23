@@ -129,7 +129,7 @@ const Hero: React.FC = () => {
     ];
 
     return (
-        <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#0A0A0A] px-6">
+        <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#0A0A0A] px-6 pt-40 pb-24">
             {/* Interactive Dot Grid Background */}
             <canvas
                 ref={canvasRef}
@@ -145,14 +145,14 @@ const Hero: React.FC = () => {
             {/* Content */}
             <div className="relative z-10 flex flex-col items-center text-center max-w-5xl">
                 {/* Eyebrow */}
-                <div className="px-4 py-1 border border-[#E3000F] rounded-full text-[#E3000F] text-xs font-bold uppercase tracking-widest mb-8">
+                <div className="px-4 py-1 border border-[#E3000F] rounded-full text-[#E3000F] text-[10px] font-bold uppercase tracking-widest mb-6 bg-[#E3000F]/5">
                     AI-Powered Technology Agency
                 </div>
 
                 {/* Headline */}
                 <h1
                     ref={headlineRef}
-                    className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#F5F5F5] leading-[0.9] tracking-tighter mb-8 overflow-hidden"
+                    className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#F5F5F5] leading-[0.9] tracking-tighter mb-6 overflow-hidden"
                 >
                     {headlineLines.map((line, idx) => (
                         <div key={idx} className="block overflow-hidden pb-2">
@@ -172,7 +172,7 @@ const Hero: React.FC = () => {
                 {/* Subtext */}
                 <p
                     ref={subtextRef}
-                    className="text-white/50 text-lg sm:text-xl max-w-2xl mb-12 leading-relaxed"
+                    className="text-white/50 text-base sm:text-lg max-w-xl mb-10 leading-relaxed"
                 >
                     Lin&apos;s InfoTech delivers cutting-edge AI development, automation, and digital solutions that transform how businesses operate in the modern age.
                 </p>
@@ -190,11 +190,11 @@ const Hero: React.FC = () => {
             </div>
 
             {/* Scroll Indicator */}
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-30 animate-bounce">
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-30 animate-bounce cursor-pointer">
                 <div className="w-5 h-8 border-2 border-white rounded-full flex justify-center p-1">
                     <div className="w-1 h-2 bg-white rounded-full" />
                 </div>
-                <span className="text-[10px] uppercase tracking-widest mt-2">Scroll</span>
+                <span className="text-[10px] uppercase tracking-widest mt-2 font-medium">Scroll</span>
             </div>
         </section>
     );

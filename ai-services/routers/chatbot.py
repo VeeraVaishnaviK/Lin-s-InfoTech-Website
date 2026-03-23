@@ -1,9 +1,13 @@
 from fastapi import APIRouter, HTTPException, Body
 from pydantic import BaseModel
 from typing import List, Optional
-from utils.gemini import get_gemini_model
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
-import json
+import google.generativeai as genai
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=api_key)
 
 router = APIRouter()
 
@@ -33,28 +37,47 @@ Your goals:
 @router.post("/")
 async def chat(request: ChatRequest = Body(...)):
     try:
-        model = get_gemini_model()
+        # Use models/gemini-2.0-flash which was verified to work (quota error)
+        model = genai.GenerativeModel('models/gemini-2.0-flash')
         
-        messages = [SystemMessage(content=SYSTEM_PROMPT)]
-        
-        # Add history
+        # Convert history for Google Generative AI format
+        chat_history = []
         for msg in request.history:
-            if msg["role"] == "user":
-                messages.append(HumanMessage(content=msg["content"]))
-            else:
-                messages.append(AIMessage(content=msg["content"]))
+            role = "user" if msg["role"] == "user" else "model"
+            chat_history.append({"role": role, "parts": [msg["content"]]})
         
-        # Add current message
-        messages.append(HumanMessage(content=request.message))
+        # Start chat with system prompt included in the first message or as instruction
+        chat = model.start_chat(history=chat_history)
         
-        response = model.invoke(messages)
+        # Prepend system prompt to the first message if history is empty
+        full_message = request.message
+        if not chat_history:
+            full_message = f"Instruction: {SYSTEM_PROMPT}\n\nUser: {request.message}"
+            
+        response = chat.send_message(full_message)
         
         return {
             "success": True, 
-            "response": response.content,
+            "response": response.text,
             "role": "ai"
         }
     except Exception as e:
         import traceback
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        error_msg = str(e)
+        
+        # Log error
+        with open("error_log.txt", "a") as f:
+            f.write(f"--- Chat Error ({type(e).__name__}) ---\n")
+            f.write(traceback.format_exc())
+            f.write("\n")
+            
+        # Handle Rate Limit / Quota specifically
+        if "RESOURCE_EXHAUSTED" in error_msg or "429" in error_msg:
+            return {
+                "success": True, # Still return success but with a notice
+                "response": "I'm sorry, I'm receiving too many requests right now. Please wait a few seconds and try again!",
+                "role": "ai",
+                "notice": "rate_limited"
+            }
+            
+        raise HTTPException(status_code=500, detail=error_msg)
