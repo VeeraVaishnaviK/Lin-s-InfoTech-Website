@@ -13,7 +13,7 @@ if not GEMINI_API_KEY:
 
 genai.configure(api_key=GEMINI_API_KEY)
 
-def get_gemini_model(model_name="gemini-2.0-flash", temperature=0.7):
+def get_gemini_model(model_name="gemini-2.5-flash", temperature=0.7):
     """
     Returns a configured LangChain ChatGoogleGenerativeAI model.
     Includes fallback logic for different model availability across accounts.
@@ -25,7 +25,7 @@ def get_gemini_model(model_name="gemini-2.0-flash", temperature=0.7):
         temperature=temperature,
     )
 
-def get_raw_gemini_model(model_name="gemini-2.0-flash"):
+def get_raw_gemini_model(model_name="gemini-2.5-flash"):
     """
     Returns a raw Google GenerativeAI model for advanced usage.
     """
