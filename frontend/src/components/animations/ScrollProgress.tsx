@@ -9,19 +9,21 @@ const ScrollProgress: React.FC = () => {
     useEffect(() => {
         if (!progressBarRef.current) return;
 
-        const tl = gsap.to(progressBarRef.current, {
-            scaleX: 1,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom bottom',
-                scrub: 0.3,
-            },
+        const ctx = gsap.context(() => {
+            gsap.to(progressBarRef.current, {
+                scaleX: 1,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: 'body',
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 0.3,
+                },
+            });
         });
 
         return () => {
-            tl.kill();
+            ctx.revert();
         };
     }, []);
 

@@ -112,7 +112,7 @@ const GlobalChatbot: React.FC = () => {
                     </div>
 
                     {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-[#1F1F1F]">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-[var(--border)]">
                         {messages.map((msg, idx) => (
                             <div
                                 key={idx}
@@ -120,8 +120,8 @@ const GlobalChatbot: React.FC = () => {
                             >
                                 <div
                                     className={`max-w-[80%] p-3 rounded-2xl text-sm ${msg.role === 'user'
-                                        ? 'bg-[#E3000F] text-white rounded-tr-none'
-                                        : 'bg-[#1F1F1F] text-white/90 rounded-tl-none'
+                                        ? 'bg-[var(--accent)] text-white rounded-tr-none'
+                                        : 'bg-[var(--border)] text-[var(--foreground)]/90 rounded-tl-none'
                                         }`}
                                 >
                                     {msg.content}
@@ -130,10 +130,10 @@ const GlobalChatbot: React.FC = () => {
                         ))}
                         {isLoading && (
                             <div className="flex justify-start">
-                                <div className="bg-[#1F1F1F] text-white/90 p-3 rounded-2xl rounded-tl-none text-sm flex items-center space-x-2">
-                                    <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                                    <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
-                                    <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: '400ms' }} />
+                                <div className="bg-[var(--border)] text-[var(--foreground)]/90 p-3 rounded-2xl rounded-tl-none text-sm flex items-center space-x-2">
+                                    <span className="w-1.5 h-1.5 bg-[var(--foreground)]/50 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                                    <span className="w-1.5 h-1.5 bg-[var(--foreground)]/50 rounded-full animate-bounce" style={{ animationDelay: '200ms' }} />
+                                    <span className="w-1.5 h-1.5 bg-[var(--foreground)]/50 rounded-full animate-bounce" style={{ animationDelay: '400ms' }} />
                                 </div>
                             </div>
                         )}
@@ -141,7 +141,7 @@ const GlobalChatbot: React.FC = () => {
                     </div>
 
                     {/* Input */}
-                    <div className="p-4 border-t border-[#1F1F1F] bg-[#0A0A0A]">
+                    <div className="p-4 border-t border-[var(--border)] bg-[var(--background)]">
                         <div className="relative">
                             <input
                                 type="text"
@@ -149,17 +149,17 @@ const GlobalChatbot: React.FC = () => {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                                 placeholder="Ask me anything..."
-                                className="w-full bg-[#111111] border border-[#1F1F1F] rounded-xl py-3 pl-4 pr-12 text-white text-sm focus:outline-none focus:border-[#E3000F] transition-colors"
+                                className="w-full bg-[var(--card)] border border-[var(--border)] rounded-xl py-3 pl-4 pr-12 text-[var(--foreground)] text-sm focus:outline-none focus:border-[var(--accent)] transition-colors"
                             />
                             <button
                                 onClick={handleSend}
                                 disabled={!input.trim() || isLoading}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 text-[#E3000F] disabled:text-[#888] transition-colors"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 text-[var(--accent)] disabled:text-[var(--muted)] transition-colors"
                             >
                                 <Send size={18} />
                             </button>
                         </div>
-                        <div className="mt-2 text-[10px] text-center text-white/30 tracking-widest uppercase">
+                        <div className="mt-2 text-[10px] text-center text-[var(--muted)] tracking-widest uppercase">
                             Powered by Lin&apos;s AI Engine
                         </div>
                     </div>

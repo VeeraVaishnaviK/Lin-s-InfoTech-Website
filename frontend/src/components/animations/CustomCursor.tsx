@@ -26,72 +26,68 @@ const CustomCursor: React.FC = () => {
 
         if (!dot || !follower) return;
 
-        // GSAP quickTo for smooth follow
-        const xDotTo = gsap.quickTo(dot, "x", { duration: 0.1, ease: "power3" });
-        const yDotTo = gsap.quickTo(dot, "y", { duration: 0.1, ease: "power3" });
+        const ctx = gsap.context(() => {
+            // GSAP quickTo for smooth follow
+            const xDotTo = gsap.quickTo(dot, "x", { duration: 0.1, ease: "power3" });
+            const yDotTo = gsap.quickTo(dot, "y", { duration: 0.1, ease: "power3" });
 
-        const xFollowerTo = gsap.quickTo(follower, "x", { duration: 0.4, ease: "power3" });
-        const yFollowerTo = gsap.quickTo(follower, "y", { duration: 0.4, ease: "power3" });
+            const xFollowerTo = gsap.quickTo(follower, "x", { duration: 0.4, ease: "power3" });
+            const yFollowerTo = gsap.quickTo(follower, "y", { duration: 0.4, ease: "power3" });
 
-        const onMouseMove = (e: MouseEvent) => {
-            const { clientX, clientY } = e;
+            const onMouseMove = (e: MouseEvent) => {
+                const { clientX, clientY } = e;
+                xDotTo(clientX);
+                yDotTo(clientY);
+                xFollowerTo(clientX);
+                yFollowerTo(clientY);
+            };
 
-            // Move dot immediately (or very fast)
-            xDotTo(clientX);
-            yDotTo(clientY);
+            const onMouseEnter = (e: MouseEvent) => {
+                const target = e.target as HTMLElement;
 
-            // Move follower with lag
-            xFollowerTo(clientX);
-            yFollowerTo(clientY);
-        };
+                if (target.closest('a, button')) {
+                    gsap.to(follower, {
+                        scale: 1.8,
+                        backgroundColor: 'rgba(227, 0, 15, 0.2)',
+                        borderColor: 'transparent',
+                        duration: 0.3
+                    });
+                    gsap.to(dot, { scale: 0.5, duration: 0.3 });
+                }
 
-        const onMouseEnter = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
+                if (target.closest('[data-cursor="view"]')) {
+                    setLabel('VIEW');
+                    gsap.to([dot, follower], { opacity: 0, duration: 0.2 });
+                }
+            };
 
-            if (target.closest('a, button')) {
-                gsap.to(follower, {
-                    scale: 1.8,
-                    backgroundColor: 'rgba(227, 0, 15, 0.2)',
-                    borderColor: 'transparent',
-                    duration: 0.3
-                });
-                gsap.to(dot, { scale: 0.5, duration: 0.3 });
-            }
+            const onMouseLeave = (e: MouseEvent) => {
+                const target = e.target as HTMLElement;
 
-            if (target.closest('[data-cursor="view"]')) {
-                setLabel('VIEW');
-                gsap.to([dot, follower], { opacity: 0, duration: 0.2 });
-            }
-        };
+                if (target.closest('a, button')) {
+                    gsap.to(follower, {
+                        scale: 1,
+                        backgroundColor: 'transparent',
+                        borderColor: '#E3000F',
+                        duration: 0.3
+                    });
+                    gsap.to(dot, { scale: 1, duration: 0.3 });
+                }
 
-        const onMouseLeave = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
+                if (target.closest('[data-cursor="view"]')) {
+                    setLabel(null);
+                    gsap.to(dot, { opacity: 1, duration: 0.2 });
+                    gsap.to(follower, { opacity: 0.6, duration: 0.2 });
+                }
+            };
 
-            if (target.closest('a, button')) {
-                gsap.to(follower, {
-                    scale: 1,
-                    backgroundColor: 'transparent',
-                    borderColor: '#E3000F',
-                    duration: 0.3
-                });
-                gsap.to(dot, { scale: 1, duration: 0.3 });
-            }
-
-            if (target.closest('[data-cursor="view"]')) {
-                setLabel(null);
-                gsap.to(dot, { opacity: 1, duration: 0.2 });
-                gsap.to(follower, { opacity: 0.6, duration: 0.2 });
-            }
-        };
-
-        window.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseover', onMouseEnter, true);
-        document.addEventListener('mouseout', onMouseLeave, true);
+            window.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseover', onMouseEnter, true);
+            document.addEventListener('mouseout', onMouseLeave, true);
+        });
 
         return () => {
-            window.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseover', onMouseEnter, true);
-            document.removeEventListener('mouseout', onMouseLeave, true);
+            ctx.revert();
             document.body.style.cursor = 'auto';
         };
     }, []);

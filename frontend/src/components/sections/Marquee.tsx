@@ -30,18 +30,18 @@ const TECH_STACK = [
 
 const Marquee: React.FC = () => {
     return (
-        <section className="bg-[#0A0A0A] border-y border-[#1F1F1F] overflow-hidden py-12 group">
+        <section className="bg-[var(--background)] border-y border-[var(--border)] overflow-hidden py-12 group">
             <div className="flex whitespace-nowrap animate-marquee group-hover:pause">
                 {[1, 2, 3].map((loop) => (
                     <div key={loop} className="flex items-center">
                         {TECH_STACK.map((tech) => (
                             <div
                                 key={tech.name}
-                                className="flex items-center gap-3 px-10 text-[#444] transition-colors hover:text-[#E3000F] cursor-default"
+                                className="flex items-center gap-3 px-10 text-[var(--muted)] transition-colors hover:text-[var(--accent)] cursor-default"
                             >
                                 <span className="opacity-50">{tech.icon}</span>
-                                <span className="text-xl font-bold uppercase tracking-widest">{tech.name}</span>
-                                <span className="mx-4 text-[#1F1F1F]">•</span>
+                                <span className="text-xl font-bold uppercase tracking-widest text-[var(--foreground)]">{tech.name}</span>
+                                <span className="mx-4 text-[var(--border)]">•</span>
                             </div>
                         ))}
                     </div>

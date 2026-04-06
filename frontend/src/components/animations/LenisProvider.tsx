@@ -19,27 +19,20 @@ const LenisProvider: React.FC<LenisProviderProps> = ({ children }) => {
         });
 
         // Connect to GSAP ticker
-        function raf(time: number) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
-        // Direct GSAP ticker integration as requested
-        gsap.ticker.add((time) => {
+        const updateLenis = (time: number) => {
             lenis.raf(time * 1000);
-        });
+        };
+
+        gsap.ticker.add(updateLenis);
         gsap.ticker.lagSmoothing(0);
 
         // Update ScrollTrigger on scroll
         lenis.on('scroll', ScrollTrigger.update);
 
-        // Start RAF
-        requestAnimationFrame(raf);
-
         // Cleanup
         return () => {
             lenis.destroy();
-            gsap.ticker.remove(raf);
+            gsap.ticker.remove(updateLenis);
         }
     }, []);
 

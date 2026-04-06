@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { gsap } from '@/lib/gsap';
 import { MousePointer2 } from 'lucide-react';
 
@@ -10,6 +11,7 @@ const Hero: React.FC = () => {
     const subtextRef = useRef<HTMLParagraphElement>(null);
     const ctaRef = useRef<HTMLDivElement>(null);
     const orbRef = useRef<HTMLDivElement>(null);
+    const requestRef = useRef<number>(null);
 
     useEffect(() => {
         // Canvas Dot Grid logic
@@ -52,7 +54,50 @@ const Hero: React.FC = () => {
         window.addEventListener('mousemove', onMouseMove);
         window.addEventListener('resize', onResize);
 
+        // GSAP Animations with context for easy cleanup
+        const ctx_gsap = gsap.context(() => {
+            // Headline Animation
+            const words = headlineRef.current?.querySelectorAll('.word');
+            if (words) {
+                gsap.from(words, {
+                    y: 100,
+                    opacity: 0,
+                    stagger: 0.08,
+                    duration: 0.9,
+                    ease: 'power4.out',
+                    delay: 0.5
+                });
+            }
+
+            gsap.from(subtextRef.current, {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 1.2
+            });
+
+            gsap.from(ctaRef.current, {
+                y: 20,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out',
+                delay: 1.5
+            });
+
+            // Orb drift
+            gsap.to(orbRef.current, {
+                x: 'random(-50, 50)',
+                y: 'random(-50, 50)',
+                duration: 'random(5, 8)',
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+        });
+
         const render = (time: number) => {
+            if (!ctx) return;
             ctx.clearRect(0, 0, width, height);
 
             dots.forEach(dot => {
@@ -72,51 +117,14 @@ const Hero: React.FC = () => {
                 ctx.fill();
             });
 
-            requestAnimationFrame(render);
+            requestRef.current = requestAnimationFrame(render);
         };
 
-        requestAnimationFrame(render);
-
-        // Headline Animation
-        const words = headlineRef.current?.querySelectorAll('.word');
-        if (words) {
-            gsap.from(words, {
-                y: 100,
-                opacity: 0,
-                stagger: 0.08,
-                duration: 0.9,
-                ease: 'power4.out',
-                delay: 0.5
-            });
-        }
-
-        gsap.from(subtextRef.current, {
-            y: 30,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-            delay: 1.2
-        });
-
-        gsap.from(ctaRef.current, {
-            y: 20,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-            delay: 1.5
-        });
-
-        // Orb drift
-        gsap.to(orbRef.current, {
-            x: 'random(-50, 50)',
-            y: 'random(-50, 50)',
-            duration: 'random(5, 8)',
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut'
-        });
+        requestRef.current = requestAnimationFrame(render);
 
         return () => {
+            ctx_gsap.revert();
+            if (requestRef.current) cancelAnimationFrame(requestRef.current);
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('resize', onResize);
         };
@@ -129,7 +137,7 @@ const Hero: React.FC = () => {
     ];
 
     return (
-        <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[#0A0A0A] px-6 pt-40 pb-24">
+        <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-[var(--background)] px-6 pt-40 pb-24 text-[var(--foreground)]">
             {/* Interactive Dot Grid Background */}
             <canvas
                 ref={canvasRef}
@@ -152,7 +160,7 @@ const Hero: React.FC = () => {
                 {/* Headline */}
                 <h1
                     ref={headlineRef}
-                    className="text-5xl sm:text-7xl lg:text-8xl font-black text-[#F5F5F5] leading-[0.9] tracking-tighter mb-6 overflow-hidden"
+                    className="text-5xl sm:text-7xl lg:text-8xl font-black text-[var(--foreground)] leading-[0.9] tracking-tighter mb-6 overflow-hidden"
                 >
                     {headlineLines.map((line, idx) => (
                         <div key={idx} className="block overflow-hidden pb-2">
@@ -172,20 +180,20 @@ const Hero: React.FC = () => {
                 {/* Subtext */}
                 <p
                     ref={subtextRef}
-                    className="text-white/50 text-base sm:text-lg max-w-xl mb-10 leading-relaxed"
+                    className="text-[var(--muted)] text-base sm:text-lg max-w-xl mb-10 leading-relaxed"
                 >
                     Lin&apos;s InfoTech delivers cutting-edge AI development, automation, and digital solutions that transform how businesses operate in the modern age.
                 </p>
 
                 {/* CTAs */}
                 <div ref={ctaRef} className="flex flex-col sm:flex-row items-center gap-4">
-                    <button className="px-8 py-4 bg-[#E3000F] text-white rounded-lg font-bold transition-all hover:bg-[#FF2D3A] hover:shadow-[0_0_30px_rgba(227,0,15,0.4)] flex items-center gap-3 group">
+                    <Link href="/ai-tools" className="px-8 py-4 bg-[var(--accent)] text-white gap-3 group border border-[var(--accent)] rounded-lg font-bold transition-all hover:bg-[var(--accent)]/90 hover:shadow-[0_0_30px_rgba(227,0,15,0.4)] flex items-center">
                         Start Your Project
                         <span className="group-hover:translate-x-1 transition-transform">→</span>
-                    </button>
-                    <button className="px-8 py-4 bg-transparent border border-[#1F1F1F] text-white rounded-lg font-bold transition-all hover:border-[#E3000F]">
+                    </Link>
+                    <Link href="/portfolio" className="px-8 py-4 bg-transparent border border-[var(--border)] text-[var(--foreground)] rounded-lg font-bold transition-all hover:border-[var(--accent)]">
                         View Our Work
-                    </button>
+                    </Link>
                 </div>
             </div>
 

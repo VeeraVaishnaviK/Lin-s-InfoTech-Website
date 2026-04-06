@@ -46,14 +46,14 @@ const PortfolioPage = () => {
     }, [activeCategory]);
 
     return (
-        <div className="bg-[#0A0A0A] text-white pt-32 pb-24">
+        <div className="bg-[var(--background)] text-[var(--foreground)] pt-32 pb-24 min-h-screen">
             <div className="container mx-auto px-6">
                 <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
                     <div className="max-w-xl">
                         <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-6">
-                            Our <span className="text-[#E3000F]">Portfolio</span>
+                            Our <span className="text-[var(--accent)]">Portfolio</span>
                         </h1>
-                        <p className="text-white/50 text-xl">
+                        <p className="text-[var(--muted)] text-xl">
                             A showroom of intelligent systems and high-end digital experiences we&apos;ve built for our clients.
                         </p>
                     </div>
@@ -66,8 +66,8 @@ const PortfolioPage = () => {
                                 className={cn(
                                     "px-8 py-3 rounded-full border text-sm font-bold uppercase tracking-widest transition-all duration-300",
                                     activeCategory === cat
-                                        ? "bg-[#E3000F] border-[#E3000F] text-white shadow-[0_0_30px_rgba(227,0,15,0.4)]"
-                                        : "border-[#1F1F1F] text-white/40 hover:border-[#888] hover:text-white"
+                                        ? "bg-[var(--accent)] border-[var(--accent)] text-white shadow-[0_0_30px_rgba(227,0,15,0.4)]"
+                                        : "border-[var(--border)] text-[var(--muted)] hover:border-[var(--muted)] hover:text-[var(--foreground)]"
                                 )}
                             >
                                 {cat}
@@ -82,7 +82,7 @@ const PortfolioPage = () => {
                             key={project.id}
                             ref={el => { cardsRef.current[idx] = el; }}
                             data-cursor="view"
-                            className="group relative h-[500px] rounded-3xl overflow-hidden bg-[#111111] animate-in"
+                            className="group relative h-[500px] rounded-3xl overflow-hidden bg-[var(--card)] animate-in"
                         >
                             <Image
                                 src={project.image}
@@ -96,13 +96,13 @@ const PortfolioPage = () => {
                             <div className="absolute bottom-0 left-0 w-full p-8 transition-all duration-500 group-hover:translate-y-[-10px]">
                                 <div className="flex gap-2 mb-4">
                                     {project.tech.map(t => (
-                                        <span key={t} className="text-[10px] font-bold uppercase tracking-widest bg-white/10 backdrop-blur-md px-2 py-1 rounded">
+                                        <span key={t} className="text-[10px] font-bold uppercase tracking-widest bg-white/10 backdrop-blur-md px-2 py-1 rounded text-white">
                                             {t}
                                         </span>
                                     ))}
                                 </div>
                                 <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-2">{project.title}</h3>
-                                <div className="flex items-center text-[#E3000F] font-bold text-sm tracking-widest uppercase gap-2 transition-all group-hover:gap-4">
+                                <div className="flex items-center text-[var(--accent)] font-bold text-sm tracking-widest uppercase gap-2 transition-all group-hover:gap-4">
                                     View Case Study <span>→</span>
                                 </div>
                             </div>

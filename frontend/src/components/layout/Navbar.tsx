@@ -37,23 +37,25 @@ const Navbar: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (isMenuOpen) {
-            document.body.style.overflow = 'hidden';
-            // GSAP animate menu in
-            gsap.to(menuRef.current, {
-                x: 0,
-                duration: 0.6,
-                ease: 'power4.out',
-            });
-        } else {
-            document.body.style.overflow = 'auto';
-            // GSAP animate menu out
-            gsap.to(menuRef.current, {
-                x: '100%',
-                duration: 0.6,
-                ease: 'power4.in',
-            });
-        }
+        const ctx = gsap.context(() => {
+            if (isMenuOpen) {
+                document.body.style.overflow = 'hidden';
+                gsap.to(menuRef.current, {
+                    x: 0,
+                    duration: 0.6,
+                    ease: 'power4.out',
+                });
+            } else {
+                document.body.style.overflow = 'auto';
+                gsap.to(menuRef.current, {
+                    x: '100%',
+                    duration: 0.6,
+                    ease: 'power4.in',
+                });
+            }
+        });
+
+        return () => ctx.revert();
     }, [isMenuOpen]);
 
     if (!mounted) return null;
@@ -63,11 +65,11 @@ const Navbar: React.FC = () => {
             <nav
                 className={cn(
                     'fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 py-4 flex items-center justify-between',
-                    isScrolled ? 'backdrop-blur-md bg-[#0A0A0A]/80 border-b border-[#1F1F1F]' : 'bg-transparent'
+                    isScrolled ? 'backdrop-blur-md bg-[var(--background)]/80 border-b border-[var(--border)]' : 'bg-transparent'
                 )}
             >
                 {/* Logo */}
-                <Link href="/" className="text-[#E3000F] font-bold text-xl tracking-tighter">
+                <Link href="/" className="text-[var(--primary)] font-bold text-xl tracking-tighter">
                     LIN&apos;S INFOTECH
                 </Link>
 
@@ -77,10 +79,10 @@ const Navbar: React.FC = () => {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="relative text-[#F5F5F5] text-sm font-medium transition-colors hover:text-white group"
+                            className="relative text-[var(--foreground)] text-sm font-medium transition-colors hover:text-[var(--accent)] group"
                         >
                             {link.name}
-                            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#E3000F] transition-all duration-300 group-hover:w-full" />
+                            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[var(--accent)] transition-all duration-300 group-hover:w-full" />
                         </Link>
                     ))}
                 </div>
@@ -89,14 +91,14 @@ const Navbar: React.FC = () => {
                 <div className="flex items-center space-x-4">
                     <button
                         onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                        className="p-2 rounded-full hover:bg-white/10 transition-colors"
+                        className="p-2 rounded-full hover:bg-[var(--muted)]/20 transition-colors"
                     >
                         {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
 
                     <Link
-                        href="/get-started"
-                        className="hidden sm:block px-5 py-2.5 bg-[#E3000F] text-white rounded-lg text-sm font-semibold transition-all hover:bg-[#FF2D3A] hover:shadow-[0_0_20px_rgba(227,0,15,0.4)]"
+                        href="/ai-tools"
+                        className="hidden sm:block px-5 py-2.5 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-lg text-sm font-semibold transition-all hover:bg-[var(--primary-hover)]"
                     >
                         Get Started
                     </Link>
@@ -105,7 +107,7 @@ const Navbar: React.FC = () => {
                     <button
                         ref={hamburgerRef}
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="md:hidden p-2 text-white z-[101]"
+                        className="md:hidden p-2 text-[var(--foreground)] z-[101]"
                     >
                         {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
@@ -115,22 +117,22 @@ const Navbar: React.FC = () => {
             {/* Mobile Menu Overlay */}
             <div
                 ref={menuRef}
-                className="fixed inset-0 bg-[#0A0A0A] z-[100] translate-x-full flex flex-col items-center justify-center space-y-8"
+                className="fixed inset-0 bg-[var(--background)] z-[100] translate-x-full flex flex-col items-center justify-center space-y-8"
             >
                 {NAV_LINKS.map((link) => (
                     <Link
                         key={link.name}
                         href={link.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="text-4xl font-bold text-white hover:text-[#E3000F] transition-colors"
+                        className="text-4xl font-bold text-[var(--foreground)] hover:text-[var(--accent)] transition-colors"
                     >
                         {link.name}
                     </Link>
                 ))}
                 <Link
-                    href="/get-started"
+                    href="/ai-tools"
                     onClick={() => setIsMenuOpen(false)}
-                    className="mt-8 px-8 py-4 bg-[#E3000F] text-white rounded-lg text-lg font-bold"
+                    className="mt-8 px-8 py-4 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-lg text-lg font-bold"
                 >
                     Get Started
                 </Link>

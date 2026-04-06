@@ -13,18 +13,19 @@ const STATS = [
 
 const Stats: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const statsRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
 
         const context = gsap.context(() => {
-            STATS.forEach((_, i) => {
+            STATS.forEach((stat, i) => {
                 const target = { val: 0 };
-                const element = document.getElementById(`stat-count-${i}`);
+                const element = statsRefs.current[i];
 
                 if (element) {
                     gsap.to(target, {
-                        val: STATS[i].value,
+                        val: stat.value,
                         duration: 2,
                         ease: "power2.out",
                         scrollTrigger: {
@@ -43,9 +44,9 @@ const Stats: React.FC = () => {
     }, []);
 
     return (
-        <section className="relative py-20 bg-[#0A0A0A] overflow-hidden">
+        <section className="relative py-20 bg-[var(--background)] overflow-hidden">
             {/* Background Accent */}
-            <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#E3000F]/30 to-transparent -translate-y-1/2" />
+            <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[var(--accent)]/30 to-transparent -translate-y-1/2" />
 
             <div
                 ref={containerRef}
@@ -54,11 +55,11 @@ const Stats: React.FC = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
                     {STATS.map((stat, idx) => (
                         <div key={idx} className="flex flex-col items-center">
-                            <div className="flex items-baseline text-5xl md:text-7xl font-black text-[#E3000F] mb-2 tracking-tighter">
-                                <span id={`stat-count-${idx}`}>0</span>
+                            <div className="flex items-baseline text-5xl md:text-7xl font-black text-[var(--accent)] mb-2 tracking-tighter">
+                                <span ref={el => { statsRefs.current[idx] = el; }}>0</span>
                                 <span>{stat.suffix}</span>
                             </div>
-                            <div className="text-[#888] font-bold uppercase tracking-widest text-xs md:text-sm">
+                            <div className="text-[var(--muted)] font-bold uppercase tracking-widest text-xs md:text-sm">
                                 {stat.label}
                             </div>
                         </div>

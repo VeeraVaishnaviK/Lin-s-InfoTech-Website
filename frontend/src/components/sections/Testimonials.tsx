@@ -18,30 +18,30 @@ const TESTIMONIALS_ROW2 = [
 ];
 
 const TestimonialCard = ({ name, company, quote }: { name: string; company: string; quote: string }) => (
-    <div className="w-[320px] md:w-[380px] shrink-0 bg-[#111111]/80 backdrop-blur-md border border-[#1F1F1F] rounded-2xl p-6 flex flex-col justify-between transition-colors hover:border-[#E3000F] mx-4">
+    <div className="w-[320px] md:w-[380px] shrink-0 bg-[var(--card)]/80 backdrop-blur-md border border-[var(--border)] rounded-2xl p-6 flex flex-col justify-between transition-colors hover:border-[var(--accent)] mx-4">
         <div>
             <div className="flex space-x-1 mb-4">
                 {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} className="fill-[#E3000F] text-[#E3000F]" />
+                    <Star key={i} size={14} className="fill-[var(--accent)] text-[var(--accent)]" />
                 ))}
             </div>
-            <p className="text-white/70 text-sm md:text-base italic leading-relaxed mb-6">
+            <p className="text-[var(--muted)] text-sm md:text-base italic leading-relaxed mb-6">
                 &ldquo;{quote}&rdquo;
             </p>
         </div>
         <div className="flex flex-col">
-            <span className="text-white font-bold text-sm">{name}</span>
-            <span className="text-[#888] text-xs uppercase tracking-widest mt-1">{company}</span>
+            <span className="text-[var(--foreground)] font-bold text-sm">{name}</span>
+            <span className="text-[var(--muted)] text-[10px] uppercase tracking-widest mt-1 font-black">{company}</span>
         </div>
     </div>
 );
 
 const Testimonials: React.FC = () => {
     return (
-        <section className="py-24 bg-[#0A0A0A] overflow-hidden group/main">
+        <section className="py-24 bg-[var(--background)] overflow-hidden group/main">
             <div className="container mx-auto px-6 mb-16 text-center">
-                <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
-                    What Clients <span className="text-[#E3000F]">Say</span>
+                <h2 className="text-4xl md:text-6xl font-black text-[var(--foreground)] uppercase tracking-tighter">
+                    What Clients <span className="text-[var(--accent)]">Say</span>
                 </h2>
             </div>
 

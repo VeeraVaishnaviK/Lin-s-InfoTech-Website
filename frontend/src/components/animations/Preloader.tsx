@@ -11,7 +11,10 @@ const Preloader: React.FC = () => {
     const counterRef = useRef<HTMLDivElement>(null);
     const logoRef = useRef<HTMLDivElement>(null);
 
+    const [mounted, setMounted] = useState(false);
+
     useEffect(() => {
+        setMounted(true);
         // Check if user has visited in this session
         const hasVisited = sessionStorage.getItem('visited');
         if (hasVisited) {
@@ -25,6 +28,7 @@ const Preloader: React.FC = () => {
         // Counter Logic
         let startTimestamp: number | null = null;
         const duration = 1800; // 1.8s
+        let rafId: number;
 
         const step = (timestamp: number) => {
             if (!startTimestamp) startTimestamp = timestamp;
@@ -34,41 +38,43 @@ const Preloader: React.FC = () => {
             setCounter(currentCount);
 
             if (progressRatio < 1) {
-                window.requestAnimationFrame(step);
+                rafId = window.requestAnimationFrame(step);
             }
         };
 
-        window.requestAnimationFrame(step);
+        rafId = window.requestAnimationFrame(step);
 
-        // GSAP Animation Timeline
-        const tl = gsap.timeline({
-            onComplete: () => {
-                setIsVisible(false);
-            }
-        });
-
-        tl.to(progressRef.current, {
-            width: '100%',
-            duration: 1.8,
-            ease: 'power1.inOut',
-        })
-            .to([logoRef.current, counterRef.current, progressRef.current], {
-                opacity: 0,
-                duration: 0.3,
-                delay: 0.2, // 200ms wait
-            })
-            .to(overlayRef.current, {
-                yPercent: -100,
-                duration: 0.7,
-                ease: 'power3.inOut',
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    setIsVisible(false);
+                }
             });
 
+            tl.to(progressRef.current, {
+                width: '100%',
+                duration: 1.8,
+                ease: 'power1.inOut',
+            })
+                .to([logoRef.current, counterRef.current, progressRef.current], {
+                    opacity: 0,
+                    duration: 0.3,
+                    delay: 0.2, // 200ms wait
+                })
+                .to(overlayRef.current, {
+                    yPercent: -100,
+                    duration: 0.7,
+                    ease: 'power3.inOut',
+                });
+        }, overlayRef);
+
         return () => {
-            tl.kill();
+            ctx.revert();
+            if (rafId) window.cancelAnimationFrame(rafId);
         };
     }, []);
 
-    if (!isVisible) return null;
+    if (!mounted || !isVisible) return null;
 
     return (
         <div

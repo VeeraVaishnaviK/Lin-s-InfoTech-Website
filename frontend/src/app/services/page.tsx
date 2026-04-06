@@ -74,13 +74,13 @@ const ServicesPage = () => {
     const [expandedId, setExpandedId] = useState<string | null>(null);
 
     return (
-        <div className="bg-[#0A0A0A] text-white pt-32 pb-24">
+        <div className="bg-[var(--background)] text-[var(--foreground)] pt-32 pb-24 min-h-screen">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-20">
                     <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-8">
-                        Our <span className="text-[#E3000F]">Services</span>
+                        Our <span className="text-[var(--accent)]">Services</span>
                     </h1>
-                    <p className="text-white/50 text-xl max-w-2xl mx-auto">
+                    <p className="text-[var(--muted)] text-xl max-w-2xl mx-auto">
                         Comprehensive AI and digital solutions designed to scale your business and automate your future.
                     </p>
                 </div>
@@ -90,24 +90,24 @@ const ServicesPage = () => {
                         <div
                             key={service.id}
                             className={cn(
-                                "bg-[#111111] border border-[#1F1F1F] rounded-2xl overflow-hidden transition-all duration-500",
-                                expandedId === service.id ? "border-[#E3000F] ring-1 ring-[#E3000F]/20" : "hover:border-[#333]"
+                                "bg-[var(--card)] border border-[var(--border)] rounded-2xl overflow-hidden transition-all duration-500",
+                                expandedId === service.id ? "border-[var(--accent)] ring-1 ring-[var(--accent)]/20" : "hover:border-[var(--muted)]"
                             )}
                         >
                             <button
                                 onClick={() => setExpandedId(expandedId === service.id ? null : service.id)}
                                 className="w-full p-8 flex flex-col md:flex-row items-center text-left gap-8"
                             >
-                                <div className="h-16 w-16 bg-[#1F1F1F] text-[#E3000F] rounded-xl flex items-center justify-center shrink-0">
+                                <div className="h-16 w-16 bg-[var(--border)] text-[var(--accent)] rounded-xl flex items-center justify-center shrink-0">
                                     {service.icon}
                                 </div>
                                 <div className="flex-1">
                                     <h3 className="text-2xl font-bold mb-2 uppercase tracking-tight">{service.title}</h3>
-                                    <p className="text-white/50">{service.description}</p>
+                                    <p className="text-[var(--muted)]">{service.description}</p>
                                 </div>
                                 <div className={cn(
-                                    "p-2 rounded-full border border-[#1F1F1F] transition-transform duration-500",
-                                    expandedId === service.id ? "rotate-180 bg-[#E3000F] text-white border-[#E3000F]" : "text-white/30"
+                                    "p-2 rounded-full border border-[var(--border)] transition-transform duration-500",
+                                    expandedId === service.id ? "rotate-180 bg-[var(--accent)] text-[var(--background)] border-[var(--accent)]" : "text-[var(--muted)]"
                                 )}>
                                     <ChevronDown size={24} />
                                 </div>
@@ -117,24 +117,24 @@ const ServicesPage = () => {
                                 "overflow-hidden transition-all duration-500 ease-in-out",
                                 expandedId === service.id ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
                             )}>
-                                <div className="px-8 pb-8 pt-4 grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-[#1F1F1F]/50 mt-4">
+                                <div className="px-8 pb-8 pt-4 grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-[var(--border)] mt-4">
                                     {/* Tech Stack */}
                                     <div>
-                                        <h4 className="text-[#E3000F] text-xs font-bold uppercase tracking-widest mb-4">Tech Stack</h4>
+                                        <h4 className="text-[var(--accent)] text-xs font-bold uppercase tracking-widest mb-4">Tech Stack</h4>
                                         <div className="flex flex-wrap gap-2">
                                             {service.techStack.map(stack => (
-                                                <span key={stack} className="px-3 py-1 bg-[#1F1F1F] text-white/80 text-xs rounded-md font-medium">{stack}</span>
+                                                <span key={stack} className="px-3 py-1 bg-[var(--border)] text-[var(--foreground)]/80 text-xs rounded-md font-medium">{stack}</span>
                                             ))}
                                         </div>
                                     </div>
 
                                     {/* Process */}
                                     <div>
-                                        <h4 className="text-[#E3000F] text-xs font-bold uppercase tracking-widest mb-4">Process</h4>
+                                        <h4 className="text-[var(--accent)] text-xs font-bold uppercase tracking-widest mb-4">Process</h4>
                                         <ul className="space-y-2">
                                             {service.process.map(step => (
-                                                <li key={step} className="flex items-center space-x-2 text-white/60 text-sm">
-                                                    <CheckCircle2 size={14} className="text-[#E3000F]" />
+                                                <li key={step} className="flex items-center space-x-2 text-[var(--muted)] text-sm">
+                                                    <CheckCircle2 size={14} className="text-[var(--accent)]" />
                                                     <span>{step}</span>
                                                 </li>
                                             ))}
@@ -142,12 +142,12 @@ const ServicesPage = () => {
                                     </div>
 
                                     {/* Pricing & CTA */}
-                                    <div className="bg-[#1F1F1F]/30 p-6 rounded-xl border border-[#1F1F1F]">
-                                        <h4 className="text-white/40 text-xs font-bold uppercase tracking-widest mb-2">Estimate</h4>
-                                        <div className="text-2xl font-black text-white mb-6 uppercase tracking-tighter">
+                                    <div className="bg-[var(--border)]/30 p-6 rounded-xl border border-[var(--border)]">
+                                        <h4 className="text-[var(--muted)] text-xs font-bold uppercase tracking-widest mb-2">Estimate</h4>
+                                        <div className="text-2xl font-black text-[var(--foreground)] mb-6 uppercase tracking-tighter">
                                             {service.pricing}
                                         </div>
-                                        <button className="w-full py-3 bg-[#E3000F] text-white rounded-lg font-bold text-sm uppercase tracking-widest hover:bg-[#FF2D3A] transition-colors">
+                                        <button className="w-full py-3 bg-[var(--accent)] text-[var(--background)] rounded-lg font-bold text-sm uppercase tracking-widest hover:opacity-90 transition-opacity">
                                             Start Now
                                         </button>
                                     </div>
@@ -158,8 +158,8 @@ const ServicesPage = () => {
                 </div>
 
                 <div className="mt-24 text-center">
-                    <h2 className="text-3xl font-black uppercase tracking-tighter mb-8">Ready to Build Your Intelligence?</h2>
-                    <button className="px-10 py-5 bg-white text-black rounded-full font-black text-xl uppercase tracking-tighter hover:bg-[#E3000F] hover:text-white transition-all">
+                    <h2 className="text-3xl font-black uppercase tracking-tighter mb-8 text-[var(--foreground)]">Ready to Build Your Intelligence?</h2>
+                    <button className="px-10 py-5 bg-[var(--foreground)] text-[var(--background)] rounded-full font-black text-xl uppercase tracking-tighter hover:bg-[var(--accent)] hover:text-white transition-all">
                         Book a Free Consultation
                     </button>
                 </div>

@@ -61,43 +61,40 @@ const Services: React.FC = () => {
     useEffect(() => {
         gsap.registerPlugin(ScrollTrigger);
 
-        const section = sectionRef.current;
-        if (!section || !cardsRef.current) return;
+        const ctx = gsap.context(() => {
+            const cards = cardsRef.current;
+            if (!cards || !sectionRef.current) return;
+            const totalWidth = cards.scrollWidth - window.innerWidth + 100;
 
-        const cards = cardsRef.current;
-        const totalWidth = cards.scrollWidth - window.innerWidth + 100; // Extra padding
+            gsap.to(cards, {
+                x: -totalWidth,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    pin: false, // Temporarily disabled for stability testing
+                    scrub: 1,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    onUpdate: (self) => {
+                        if (progressRef.current) {
+                            gsap.set(progressRef.current, { scaleX: self.progress });
+                        }
+                    },
+                }
+            });
+        }, sectionRef);
 
-        const scrollTween = gsap.to(cards, {
-            x: -totalWidth,
-            ease: "none",
-            scrollTrigger: {
-                trigger: section,
-                pin: true,
-                scrub: 1,
-                start: "top top",
-                end: () => `+=${totalWidth}`,
-                onUpdate: (self) => {
-                    if (progressRef.current) {
-                        gsap.set(progressRef.current, { scaleX: self.progress });
-                    }
-                },
-            }
-        });
-
-        return () => {
-            scrollTween.kill();
-            ScrollTrigger.getAll().forEach(st => st.kill());
-        };
+        return () => ctx.revert();
     }, []);
 
     return (
         <section
             ref={sectionRef}
-            className="relative h-screen flex flex-col justify-center overflow-hidden bg-[#0A0A0A]"
+            className="relative h-screen flex flex-col justify-center overflow-hidden bg-[var(--background)]"
         >
             <div className="container mx-auto px-6 mb-12">
-                <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter">
-                    What We <span className="text-[#E3000F]">Build</span>
+                <h2 className="text-4xl md:text-6xl font-black text-[var(--foreground)] uppercase tracking-tighter">
+                    What We <span className="text-[var(--accent)]">Build</span>
                 </h2>
             </div>
 
@@ -109,14 +106,14 @@ const Services: React.FC = () => {
                     {SERVICES.map((service, idx) => (
                         <div
                             key={idx}
-                            className="group relative w-[320px] md:w-[380px] shrink-0 aspect-[4/5] bg-[#111111]/80 backdrop-blur-md border border-[#1F1F1F] rounded-2xl p-8 flex flex-col justify-between transition-all duration-300 hover:border-[#E3000F] hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(227,0,15,0.1)]"
+                            className="group relative w-[320px] md:w-[380px] shrink-0 aspect-[4/5] bg-[var(--card)]/80 backdrop-blur-md border border-[var(--border)] rounded-2xl p-8 flex flex-col justify-between transition-all duration-300 hover:border-[var(--accent)] hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(227,0,15,0.1)]"
                         >
                             <div>
                                 <div className="mb-6 transform transition-transform group-hover:scale-110 group-hover:rotate-3 duration-500 origin-left">
                                     {service.icon}
                                 </div>
-                                <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
-                                <p className="text-white/50 leading-relaxed text-sm md:text-base">
+                                <h3 className="text-2xl font-bold text-[var(--foreground)] mb-4">{service.title}</h3>
+                                <p className="text-[var(--muted)] leading-relaxed text-sm md:text-base">
                                     {service.description}
                                 </p>
                             </div>
@@ -134,10 +131,10 @@ const Services: React.FC = () => {
             </div>
 
             {/* Progress Bar */}
-            <div className="absolute bottom-10 left-6 md:left-20 right-6 md:right-20 h-[2px] bg-white/10 rounded-full overflow-hidden">
+            <div className="absolute bottom-10 left-6 md:left-20 right-6 md:right-20 h-[2px] bg-[var(--border)] rounded-full overflow-hidden">
                 <div
                     ref={progressRef}
-                    className="h-full bg-[#E3000F] w-full origin-left scale-x-0"
+                    className="h-full bg-[var(--accent)] w-full origin-left scale-x-0"
                 />
             </div>
         </section>

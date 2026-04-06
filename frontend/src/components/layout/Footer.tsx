@@ -7,56 +7,62 @@ import { gsap } from '@/lib/gsap';
 
 const Footer: React.FC = () => {
     const footerTextRef = useRef<HTMLDivElement>(null);
-
-    // Magnetic effect for social icons
-    const createMagnetic = (target: HTMLAnchorElement | null) => {
-        if (!target) return;
-
-        const xTo = gsap.quickTo(target, "x", { duration: 0.3, ease: "power3" });
-        const yTo = gsap.quickTo(target, "y", { duration: 0.3, ease: "power3" });
-
-        target.addEventListener("mousemove", (e) => {
-            const { clientX, clientY } = e;
-            const { left, top, width, height } = target.getBoundingClientRect();
-            const x = clientX - (left + width / 2);
-            const y = clientY - (top + height / 2);
-            xTo(x * 0.5);
-            yTo(y * 0.5);
-        });
-
-        target.addEventListener("mouseleave", () => {
-            xTo(0);
-            yTo(0);
-        });
-    };
-
     const githubRef = useRef<HTMLAnchorElement>(null);
     const linkedinRef = useRef<HTMLAnchorElement>(null);
     const twitterRef = useRef<HTMLAnchorElement>(null);
 
+    // Magnetic effect for social icons
     useEffect(() => {
-        createMagnetic(githubRef.current);
-        createMagnetic(linkedinRef.current);
-        createMagnetic(twitterRef.current);
+        const ctx = gsap.context(() => {
+            const createMagnetic = (target: HTMLAnchorElement | null) => {
+                if (!target) return;
+
+                const xTo = gsap.quickTo(target, "x", { duration: 0.3, ease: "power3" });
+                const yTo = gsap.quickTo(target, "y", { duration: 0.3, ease: "power3" });
+
+                const onMove = (e: MouseEvent) => {
+                    const { clientX, clientY } = e;
+                    const { left, top, width, height } = target.getBoundingClientRect();
+                    const x = clientX - (left + width / 2);
+                    const y = clientY - (top + height / 2);
+                    xTo(x * 0.5);
+                    yTo(y * 0.5);
+                };
+
+                const onLeave = () => {
+                    xTo(0);
+                    yTo(0);
+                };
+
+                target.addEventListener("mousemove", onMove);
+                target.addEventListener("mouseleave", onLeave);
+            };
+
+            createMagnetic(githubRef.current);
+            createMagnetic(linkedinRef.current);
+            createMagnetic(twitterRef.current);
+        });
+
+        return () => ctx.revert();
     }, []);
 
     return (
-        <footer className="relative bg-[#0A0A0A] pt-20 pb-10 overflow-hidden">
+        <footer className="relative bg-[var(--background)] pt-20 pb-10 overflow-hidden">
             {/* Scrolling Marquee */}
-            <div className="w-full border-t border-b border-[#1F1F1F] py-4 mb-20 overflow-hidden group">
+            <div className="w-full border-t border-b border-[var(--border)] py-4 mb-20 overflow-hidden group">
                 <div className="flex whitespace-nowrap animate-marquee group-hover:pause">
                     {[1, 2].map((i) => (
                         <div key={i} className="flex items-center">
-                            <span className="text-[#F5F5F5] text-sm uppercase tracking-widest px-8">AI Development</span>
-                            <span className="text-[#E3000F]">•</span>
-                            <span className="text-[#F5F5F5] text-sm uppercase tracking-widest px-8">Web Development</span>
-                            <span className="text-[#E3000F]">•</span>
-                            <span className="text-[#F5F5F5] text-sm uppercase tracking-widest px-8">Mobile Apps</span>
-                            <span className="text-[#E3000F]">•</span>
-                            <span className="text-[#F5F5F5] text-sm uppercase tracking-widest px-8">Automation</span>
-                            <span className="text-[#E3000F]">•</span>
-                            <span className="text-[#F5F5F5] text-sm uppercase tracking-widest px-8">AI Solutions</span>
-                            <span className="text-[#E3000F]">•</span>
+                            <span className="text-[var(--foreground)] text-sm uppercase tracking-widest px-8">AI Development</span>
+                            <span className="text-[var(--accent)]">•</span>
+                            <span className="text-[var(--foreground)] text-sm uppercase tracking-widest px-8">Web Development</span>
+                            <span className="text-[var(--accent)]">•</span>
+                            <span className="text-[var(--foreground)] text-sm uppercase tracking-widest px-8">Mobile Apps</span>
+                            <span className="text-[var(--accent)]">•</span>
+                            <span className="text-[var(--foreground)] text-sm uppercase tracking-widest px-8">Automation</span>
+                            <span className="text-[var(--accent)]">•</span>
+                            <span className="text-[var(--foreground)] text-sm uppercase tracking-widest px-8">AI Solutions</span>
+                            <span className="text-[var(--accent)]">•</span>
                         </div>
                     ))}
                 </div>
@@ -68,7 +74,7 @@ const Footer: React.FC = () => {
                     className="text-[clamp(4rem,15vw,12rem)] font-black uppercase leading-none opacity-20"
                     style={{
                         color: 'transparent',
-                        WebkitTextStroke: '1px #1F1F1F'
+                        WebkitTextStroke: '1px var(--border)'
                     }}
                 >
                     LIN&apos;S INFOTECH
@@ -76,19 +82,19 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Bottom Bar */}
-            <div className="container mx-auto px-6 mt-20 flex flex-col md:flex-row items-center justify-between border-t border-[#1F1F1F] pt-10 gap-8">
-                <div className="text-white/40 text-sm">
+            <div className="container mx-auto px-6 mt-20 flex flex-col md:flex-row items-center justify-between border-t border-[var(--border)] pt-10 gap-8">
+                <div className="text-[var(--muted)] text-sm">
                     © {new Date().getFullYear()} Lin&apos;s InfoTech. All rights reserved.
                 </div>
 
                 <div className="flex items-center space-x-6">
-                    <Link href="https://github.com" ref={githubRef} className="p-3 text-white/60 hover:text-white transition-colors">
+                    <Link href="https://github.com" ref={githubRef} className="p-3 text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                         <Github size={24} />
                     </Link>
-                    <Link href="https://linkedin.com" ref={linkedinRef} className="p-3 text-white/60 hover:text-white transition-colors">
+                    <Link href="https://linkedin.com" ref={linkedinRef} className="p-3 text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                         <Linkedin size={24} />
                     </Link>
-                    <Link href="https://twitter.com" ref={twitterRef} className="p-3 text-white/60 hover:text-white transition-colors">
+                    <Link href="https://twitter.com" ref={twitterRef} className="p-3 text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
                         <Twitter size={24} />
                     </Link>
                 </div>
