@@ -2,14 +2,13 @@
 
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import Image from 'next/image';
+import { Linkedin } from 'lucide-react';
 import { gsap } from '@/lib/gsap';
 
 const Footer: React.FC = () => {
     const footerTextRef = useRef<HTMLDivElement>(null);
-    const githubRef = useRef<HTMLAnchorElement>(null);
     const linkedinRef = useRef<HTMLAnchorElement>(null);
-    const twitterRef = useRef<HTMLAnchorElement>(null);
 
     // Magnetic effect for social icons
     useEffect(() => {
@@ -38,9 +37,7 @@ const Footer: React.FC = () => {
                 target.addEventListener("mouseleave", onLeave);
             };
 
-            createMagnetic(githubRef.current);
             createMagnetic(linkedinRef.current);
-            createMagnetic(twitterRef.current);
         });
 
         return () => ctx.revert();
@@ -68,17 +65,20 @@ const Footer: React.FC = () => {
                 </div>
             </div>
 
-            {/* Giant Outline Text */}
-            <div className="container mx-auto px-6 text-center select-none pointer-events-none">
-                <h2
-                    className="text-[clamp(4rem,15vw,12rem)] font-black uppercase leading-none opacity-20"
-                    style={{
-                        color: 'transparent',
-                        WebkitTextStroke: '1px var(--border)'
-                    }}
-                >
-                    LIN&apos;S INFOTECH
-                </h2>
+            {/* Logo Emblem */}
+            <div className="container mx-auto px-6 flex justify-center items-center py-8 select-none pointer-events-none">
+                {/* Light Theme Logo (Dark text/logo) */}
+                <img
+                    src="/logo-dark.png"
+                    alt="Lin's InfoTech Logo"
+                    className="w-[320px] md:w-[480px] h-auto opacity-20 block dark:hidden transition-all duration-500"
+                />
+                {/* Dark Theme Logo (White text/logo) */}
+                <img
+                    src="/logo-white.png"
+                    alt="Lin's InfoTech Logo"
+                    className="w-[320px] md:w-[480px] h-auto opacity-20 hidden dark:block transition-all duration-500"
+                />
             </div>
 
             {/* Bottom Bar */}
@@ -88,14 +88,14 @@ const Footer: React.FC = () => {
                 </div>
 
                 <div className="flex items-center space-x-6">
-                    <Link href="https://github.com" ref={githubRef} className="p-3 text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
-                        <Github size={24} />
-                    </Link>
-                    <Link href="https://linkedin.com" ref={linkedinRef} className="p-3 text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
+                    <Link 
+                        href="https://www.linkedin.com/company/lin-s-infotech/posts/?feedView=all" 
+                        ref={linkedinRef}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
+                    >
                         <Linkedin size={24} />
-                    </Link>
-                    <Link href="https://twitter.com" ref={twitterRef} className="p-3 text-[var(--muted)] hover:text-[var(--accent)] transition-colors">
-                        <Twitter size={24} />
                     </Link>
                 </div>
             </div>

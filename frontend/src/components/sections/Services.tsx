@@ -18,37 +18,37 @@ const SERVICES = [
         title: 'AI Development',
         description: 'Custom machine learning models and neural networks tailored to your business logic and data patterns.',
         icon: <Cpu size={40} className="text-[#E3000F]" />,
-        href: '/services/ai-development'
+        href: '/services?service=ai'
     },
     {
         title: 'Web Development',
         description: 'Scalable, high-performance web applications built with Next.js, React, and cutting-edge frontend tech.',
         icon: <Code2 size={40} className="text-[#E3000F]" />,
-        href: '/services/web-development'
+        href: '/services?service=web'
     },
     {
         title: 'Mobile Apps',
         description: 'Native and cross-platform mobile solutions that provide seamless user experiences on iOS and Android.',
         icon: <Smartphone size={40} className="text-[#E3000F]" />,
-        href: '/services/mobile-apps'
+        href: '/services?service=mobile'
     },
     {
         title: 'Automation Systems',
         description: 'Streamline your workflows with intelligent RPA and custom automated pipelines to maximize efficiency.',
         icon: <Settings2 size={40} className="text-[#E3000F]" />,
-        href: '/services/automation'
+        href: '/services?service=automation'
     },
     {
         title: 'AI Chatbots',
         description: 'Advanced NLP-driven conversational agents that handle customer support and sales 24/7.',
         icon: <MessageSquare size={40} className="text-[#E3000F]" />,
-        href: '/services/chatbots'
+        href: '/services?service=chatbots'
     },
     {
         title: 'Data Analytics',
         description: 'Turn your raw data into actionable insights with our deep learning and predictive analytics tools.',
         icon: <BarChart3 size={40} className="text-[#E3000F]" />,
-        href: '/services/analytics'
+        href: '/services?service=analytics'
     },
 ];
 

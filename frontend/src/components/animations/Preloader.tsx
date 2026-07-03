@@ -15,6 +15,11 @@ const Preloader: React.FC = () => {
 
     useEffect(() => {
         setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
         // Check if user has visited in this session
         const hasVisited = sessionStorage.getItem('visited');
         if (hasVisited) {
@@ -45,6 +50,7 @@ const Preloader: React.FC = () => {
         rafId = window.requestAnimationFrame(step);
 
         const ctx = gsap.context(() => {
+            if (!progressRef.current || !logoRef.current || !counterRef.current || !overlayRef.current) return;
             const tl = gsap.timeline({
                 onComplete: () => {
                     setIsVisible(false);
@@ -72,7 +78,7 @@ const Preloader: React.FC = () => {
             ctx.revert();
             if (rafId) window.cancelAnimationFrame(rafId);
         };
-    }, []);
+    }, [mounted]);
 
     if (!mounted || !isVisible) return null;
 

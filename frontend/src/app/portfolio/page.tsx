@@ -6,20 +6,50 @@ import { gsap } from '@/lib/gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { cn } from '@/lib/utils';
 
-const CATEGORIES = ['All', 'AI', 'Web', 'Mobile', 'Automation'];
+const CATEGORIES = ['All', 'AI', 'Web', 'Mobile'];
 
 const PROJECTS = [
-    { id: 1, title: 'IntelliHealth Platform', category: 'AI', image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop', tech: ['Gemini API', 'Next.js', 'FastAPI'] },
-    { id: 2, title: 'Nexus E-Commerce', category: 'Web', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop', tech: ['Next.js', 'Stripe', 'Node.js'] },
-    { id: 3, title: 'Zenith CRM App', category: 'Mobile', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop', tech: ['React Native', 'Firebase'] },
-    { id: 4, title: 'SupplyChain Auto', category: 'Automation', image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop', tech: ['Python', 'n8n', 'Zapier'] },
-    { id: 5, title: 'Predictive Trader', category: 'AI', image: 'https://images.unsplash.com/photo-1611974717483-360061fc5f61?q=80&w=800&auto=format&fit=crop', tech: ['TensorFlow', 'Python'] },
-    { id: 6, title: 'Vanguard Portfolio', category: 'Web', image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop', tech: ['React', 'GSAP', 'Tailwind'] },
+    {
+        id: 1,
+        title: 'Laundex',
+        description: 'Premium on-demand laundry and dry cleaning application with real-time tracking, scheduling, and door-to-door delivery logistics.',
+        category: 'Mobile',
+        image: '/portfolio-laundex.png',
+        tech: ['React Native', 'Next.js', 'TailwindCSS'],
+        link: 'https://www.laundex.in/'
+    },
+    {
+        id: 2,
+        title: 'Apex Engineering',
+        description: 'Industrial fabrication and custom engineering platform displaying heavy structural designs and manufacturing capabilities.',
+        category: 'Web',
+        image: '/portfolio-apex.png',
+        tech: ['Next.js', 'Framer Motion', 'TailwindCSS'],
+        link: 'https://www.apexengineering.org.in/'
+    },
+    {
+        id: 3,
+        title: 'Nexacro AI',
+        description: 'Computer vision machine learning model engineered to detect and analyze acrosome defect classifications in sperm diagnostics.',
+        category: 'AI',
+        image: '/portfolio-nexacro.png',
+        tech: ['Python', 'TensorFlow', 'FastAPI', 'OpenCV'],
+        link: 'https://www.nexacro.in/'
+    },
+    {
+        id: 4,
+        title: 'Scholar Link Up',
+        description: 'Interactive peer-to-peer tutoring and teaching platform connecting expert educators and students for remote study.',
+        category: 'Web',
+        image: '/portfolio-scholar.png',
+        tech: ['React', 'Node.js', 'MongoDB', 'Socket.io'],
+        link: 'https://scholar-link-up.vercel.app/'
+    }
 ];
 
 const PortfolioPage = () => {
     const [activeCategory, setActiveCategory] = useState('All');
-    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+    const cardsRef = useRef<(HTMLAnchorElement | null)[]>([]);
 
     const filteredProjects = PROJECTS.filter(p => activeCategory === 'All' || p.category === activeCategory);
 
@@ -30,11 +60,11 @@ const PortfolioPage = () => {
         cardsRef.current.forEach((card, i) => {
             if (!card) return;
             gsap.fromTo(card,
-                { scale: 0.9, opacity: 0, y: 30 },
+                { scale: 0.95, opacity: 0, y: 30 },
                 {
                     scale: 1, opacity: 1, y: 0,
                     duration: 0.8,
-                    ease: "back.out(1.7)",
+                    ease: "power2.out",
                     scrollTrigger: {
                         trigger: card,
                         start: "top 90%",
@@ -76,37 +106,48 @@ const PortfolioPage = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
                     {filteredProjects.map((project, idx) => (
-                        <div
+                        <a
                             key={project.id}
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             ref={el => { cardsRef.current[idx] = el; }}
-                            data-cursor="view"
-                            className="group relative h-[500px] rounded-3xl overflow-hidden bg-[var(--card)] animate-in"
+                            className="group block bg-[var(--card)] border border-[var(--border)] rounded-[2.5rem] overflow-hidden hover:border-[var(--accent)]/30 hover:shadow-[0_20px_50px_rgba(227,0,15,0.05)] transition-all duration-500 flex flex-col h-[520px]"
                         >
-                            <Image
-                                src={project.image}
-                                alt={project.title}
-                                fill
-                                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-
-                            <div className="absolute bottom-0 left-0 w-full p-8 transition-all duration-500 group-hover:translate-y-[-10px]">
-                                <div className="flex gap-2 mb-4">
-                                    {project.tech.map(t => (
-                                        <span key={t} className="text-[10px] font-bold uppercase tracking-widest bg-white/10 backdrop-blur-md px-2 py-1 rounded text-white">
-                                            {t}
-                                        </span>
-                                    ))}
-                                </div>
-                                <h3 className="text-2xl font-black uppercase tracking-tighter text-white mb-2">{project.title}</h3>
-                                <div className="flex items-center text-[var(--accent)] font-bold text-sm tracking-widest uppercase gap-2 transition-all group-hover:gap-4">
-                                    View Case Study <span>→</span>
+                            {/* Media Box */}
+                            <div className="relative w-full h-[300px] bg-[var(--border)]/10 p-6 flex items-center justify-center overflow-hidden border-b border-[var(--border)]">
+                                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg border border-[var(--border)]">
+                                    <Image
+                                        src={project.image}
+                                        alt={project.title}
+                                        fill
+                                        className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                                    />
                                 </div>
                             </div>
-                        </div>
+
+                            {/* Content Box */}
+                            <div className="p-8 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <div className="flex gap-2 mb-4">
+                                        {project.tech.map(t => (
+                                            <span key={t} className="text-[9px] font-bold uppercase tracking-widest bg-[var(--border)] text-[var(--foreground)]/80 px-2.5 py-1 rounded-md">
+                                                {t}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <h3 className="text-2xl font-black uppercase tracking-tighter text-[var(--foreground)] mb-3 group-hover:text-[var(--accent)] transition-colors">{project.title}</h3>
+                                    <p className="text-[var(--muted)] text-sm leading-relaxed line-clamp-2">
+                                        {project.description}
+                                    </p>
+                                </div>
+                                <div className="flex items-center text-[var(--accent)] font-bold text-xs uppercase tracking-widest gap-2 mt-4">
+                                    Launch Project <span>→</span>
+                                </div>
+                            </div>
+                        </a>
                     ))}
                 </div>
             </div>

@@ -3,6 +3,9 @@
  * Loads environment variables, connects to MongoDB, and starts the Express server.
  * Includes graceful shutdown handling.
  */
+// Load Intelligent Mock Database Fallback Layer
+require('./utils/mockDb');
+
 const config = require('./config');
 const connectDB = require('./config/db');
 const app = require('./app');

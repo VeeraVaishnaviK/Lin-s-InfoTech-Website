@@ -52,18 +52,20 @@ const About: React.FC = () => {
 
     return (
         <section ref={sectionRef} className="py-24 bg-[var(--background)] px-6 overflow-hidden">
-            <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                 {/* Left: Image */}
-                <div
-                    ref={imageRef}
-                    className="relative aspect-square rounded-2xl overflow-hidden bg-[var(--card)]"
-                >
-                    <Image
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"
-                        alt="Lin - Founder"
-                        fill
-                        className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                    />
+                <div className="flex justify-center lg:justify-center w-full">
+                    <div
+                        ref={imageRef}
+                        className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-full overflow-hidden border-4 border-white/10 shadow-2xl bg-[var(--card)]"
+                    >
+                        <Image
+                            src="/rejolin-original.png"
+                            alt="Rejolin Solomon J - Founder"
+                            fill
+                            className="object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                    </div>
                 </div>
 
                 {/* Right: Content */}
@@ -75,24 +77,29 @@ const About: React.FC = () => {
                         ref={headlineRef}
                         className="text-4xl md:text-6xl font-black text-[var(--foreground)] uppercase tracking-tighter mb-8 leading-none"
                     >
-                        Lin — Founder & CEO
+                        Rejolin Solomon J — Founder & CEO
                     </h2>
                     <p className="text-[var(--muted)] text-lg leading-relaxed mb-10">
-                        Lin founded Lin&apos;s InfoTech with a vision to make AI-powered solutions accessible to modern businesses. With deep expertise in AI development, automation, and digital transformation, Lin leads a team dedicated to building intelligent systems that drive real results.
+                        Rejolin Solomon J is the Founder and CEO of Lin&apos;s InfoTech. A visionary software engineer and developer community leader, Rejolin also serves as the President of the Google Developer Groups (GDG) on Campus at SIMATS, student convenor for the Institution&apos;s Innovation Council (IIC), and an Intel AI Student Community Ambassador. Under his leadership, Lin&apos;s InfoTech builds premium, cutting-edge web, mobile, and AI automation solutions that transform business operations with visual excellence.
                     </p>
 
                     <div className="flex flex-wrap gap-3 mb-12">
-                        {['AI Expert', 'Full Stack', 'Startup Mentor'].map(chip => (
+                        {['Founder & CEO', 'GDG Campus Lead', 'Intel AI Ambassador', 'Startup Strategist'].map(chip => (
                             <span key={chip} className="px-5 py-2 rounded-full border border-[var(--border)] text-[var(--muted)] text-sm font-bold">
                                 {chip}
                             </span>
                         ))}
                     </div>
 
-                    <button className="group flex items-center space-x-3 text-[var(--foreground)] font-bold text-lg tracking-tight">
+                    <a
+                        href="https://www.linkedin.com/in/rejolin-solomon-j"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center space-x-3 text-[var(--foreground)] font-bold text-lg tracking-tight hover:text-[var(--accent)] transition-colors cursor-pointer"
+                    >
                         <span>Let&apos;s Connect</span>
                         <span className="text-[var(--accent)] transition-transform group-hover:translate-x-2">→</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>

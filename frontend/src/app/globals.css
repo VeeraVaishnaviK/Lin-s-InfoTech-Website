@@ -20,6 +20,7 @@
   --primary: #E3000F;
   --primary-foreground: #ffffff;
   --primary-hover: #FF2D3A;
+  --logo-filter: invert(1) brightness(0.2) contrast(1.2);
 }
 
 [data-theme='dark'],
@@ -33,6 +34,7 @@
   --primary: #E3000F;
   --primary-foreground: #ffffff;
   --primary-hover: #FF2D3A;
+  --logo-filter: none;
 }
 
 body {

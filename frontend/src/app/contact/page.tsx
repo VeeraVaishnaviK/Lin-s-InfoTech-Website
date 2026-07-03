@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Linkedin, Github, Send, CheckCircle, Info } from 'lucide-react';
+import { Mail, Linkedin, Send, CheckCircle, Info } from 'lucide-react';
 import api from '@/lib/api';
 import { ENDPOINTS } from '@/lib/endpoints';
 import { cn } from '@/lib/utils';
@@ -87,14 +87,14 @@ const ContactPage = () => {
                             </a>
 
                             <div className="flex space-x-4 pt-4">
-                                {[
-                                    { icon: <Linkedin size={20} />, href: '#' },
-                                    { icon: <Github size={20} />, href: '#' },
-                                ].map((social, i) => (
-                                    <a key={i} href={social.href} className="h-12 w-12 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all">
-                                        {social.icon}
-                                    </a>
-                                ))}
+                                <a 
+                                    href="https://www.linkedin.com/company/lin-s-infotech/posts/?feedView=all" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="h-12 w-12 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all"
+                                >
+                                    <Linkedin size={20} />
+                                </a>
                             </div>
                         </div>
 
@@ -146,10 +146,11 @@ const ContactPage = () => {
                                         className="w-full bg-[var(--background)] border border-[var(--border)] rounded-xl py-4 px-6 text-[var(--foreground)] focus:outline-none focus:border-[var(--accent)] transition-colors appearance-none"
                                     >
                                         <option value="">Select Category</option>
-                                        <option value="ai">AI / ML Development</option>
-                                        <option value="web">Web Application</option>
-                                        <option value="mobile">Mobile App</option>
-                                        <option value="automation">Process Automation</option>
+                                        <option value="AI Development">AI / ML Development</option>
+                                        <option value="Web Development">Web Application</option>
+                                        <option value="Mobile App">Mobile App</option>
+                                        <option value="Automation">Process Automation</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
                                 <div className="space-y-2">
