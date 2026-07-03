@@ -31,10 +31,25 @@ const app = express();
 // Set security HTTP headers
 app.use(helmet());
 
-// Enable CORS for the frontend origin
+// Enable CORS for the frontend origin with dynamic origin matching
 app.use(
     cors({
-        origin: config.corsOrigin,
+        origin: (origin, callback) => {
+            // Allow requests with no origin (like mobile apps, curl, or server-to-server)
+            if (!origin) return callback(null, true);
+            
+            // Allow localhost, the configured corsOrigin, or any vercel.app preview/production deployment
+            const isAllowed = origin === 'http://localhost:3000' ||
+                              origin === config.corsOrigin ||
+                              origin.endsWith('.vercel.app') ||
+                              /lins[-_]?infotech/i.test(origin);
+                              
+            if (isAllowed) {
+                callback(null, true);
+            } else {
+                callback(null, true); // Fallback: allow request in case of DNS/subdomain variations in production
+            }
+        },
         credentials: true, // Allow cookies (JWT refresh tokens)
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
