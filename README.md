@@ -15,11 +15,11 @@
 
 <br />
 
-## 📖 Overview
+## Overview
 
 **Lin's InfoTech** is a sophisticated, full-stack web application designed to serve as the digital storefront and lead-generation engine for an AI technology agency. The platform seamlessly integrates stunning frontend animations, a robust Node.js backend for lead capture, and a dedicated Python microservice powered by Google Gemini to offer interactive AI tools directly to clients.
 
-## ✨ Key Features
+## Key Features
 
 - **Blazing Fast Frontend:** Built on Next.js App Router for optimal SEO and performance.
 - **Fluid Animations:** Industry-leading GSAP and Framer Motion animations for a premium user experience.
@@ -30,7 +30,13 @@
 
 ---
 
-## 🏛️ System Architecture
+## Live Demo
+
+Experience the live application here: **[https://linsinfotech.in](https://linsinfotech.in)**
+
+---
+
+## System Architecture
 
 The application is built on a modern **Microservices-Oriented Architecture** (MOA) divided into three distinct layers to ensure scalability and separation of concerns.
 
@@ -51,7 +57,7 @@ graph TD
 
 ---
 
-## 💻 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Framework:** Next.js (App Router)
@@ -74,7 +80,7 @@ graph TD
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ├── frontend/             # Next.js Application
@@ -92,7 +98,19 @@ graph TD
 
 ---
 
-## 🚀 Setup & Installation
+## API Modules
+
+The backend architecture consists of several robust REST API modules that facilitate communication between the user and the services:
+
+- **Auth & Users API:** Manages secure client portal access, session handling, and authentication tokens.
+- **Lead Generation API:** Captures and securely stores incoming leads, contact form submissions, and callback requests into MongoDB.
+- **AI Proxy API (Express):** Acts as a secure middleman, authenticating requests before forwarding them to the Python AI service to prevent direct exposure.
+- **Chatbot API (FastAPI):** Streaming endpoint powered by Google Gemini to provide real-time, context-aware conversational assistance.
+- **Document Generation API (FastAPI):** Asynchronous endpoints that analyze user inputs to dynamically construct Project Proposals and Budgets.
+
+---
+
+## Setup & Installation
 
 ### Prerequisites
 - Node.js (v18+)
@@ -115,7 +133,16 @@ graph TD
 
 ---
 
-## 👨‍💻 Developer
+## Future Enhancements
+
+- **Client Portal Dashboard:** Expanding the client portal to allow users to track their project progress, view invoices, and communicate directly with the team.
+- **Automated Email Workflows:** Integrating SendGrid or AWS SES to automatically dispatch confirmation emails and newsletters to captured leads.
+- **Advanced AI Agents:** Implementing autonomous AI agents that can actively crawl a client's existing website and proactively suggest specific architectural improvements.
+- **Analytics Integration:** Building a custom analytics dashboard into the backend to monitor AI usage, token consumption, and form conversion rates.
+
+---
+
+## Developer
 
 **Veera Vaishnavi K**
 - **Full Stack Developer** | **AI Solutions Developer**
@@ -129,6 +156,11 @@ graph TD
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **MIT License**.
+
+<br />
+<div align="center">
+  <p>© 2026 Lin's InfoTech. All Rights Reserved.</p>
+</div>
