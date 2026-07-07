@@ -69,8 +69,13 @@ const Navbar: React.FC = () => {
                 )}
             >
                 {/* Logo */}
-                <Link href="/" className="text-[var(--primary)] font-bold text-xl tracking-tighter">
-                    LIN&apos;S INFOTECH
+                <Link href="/" className="flex items-center space-x-2 text-[var(--primary)] font-bold text-xl tracking-tighter">
+                    <span>LIN&apos;S INFOTECH</span>
+                    <img 
+                        src={theme === 'dark' ? '/logo-white.png' : '/logo-dark.png'} 
+                        alt="Lin's InfoTech Logo" 
+                        className="h-8 w-auto object-contain" 
+                    />
                 </Link>
 
                 {/* Desktop Links */}
