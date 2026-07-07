@@ -256,7 +256,7 @@ def generate_mock_validation(idea: str) -> dict:
 
 # --- Exported Functions with Fallbacks ---
 
-def get_gemini_model(model_name="gemini-2.5-flash", temperature=0.7):
+def get_gemini_model(model_name="gemini-1.5-flash", temperature=0.7):
     """
     Returns a configured LangChain ChatGoogleGenerativeAI model.
     If Mock Mode is active, returns a MockLangchainModel.
@@ -275,7 +275,7 @@ def get_gemini_model(model_name="gemini-2.5-flash", temperature=0.7):
         print(f"[MOCK AI] Error constructing ChatGoogleGenerativeAI: {e}. Falling back to Mock Model.")
         return MockLangchainModel(model_name, temperature)
 
-def get_raw_gemini_model(model_name="gemini-2.5-flash"):
+def get_raw_gemini_model(model_name="gemini-1.5-flash"):
     """
     Returns a raw Google GenerativeAI model.
     """

@@ -37,8 +37,8 @@ Your goals:
 @router.post("/")
 async def chat(request: ChatRequest = Body(...)):
     try:
-        # Use gemini-2.5-flash which is confirmed to be available for this key
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        # Use gemini-1.5-flash which is the correct model name
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
         # Convert history for Google Generative AI format
         chat_history = []
