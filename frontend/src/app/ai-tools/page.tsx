@@ -281,8 +281,21 @@ const AIToolsPage = () => {
                                                 <div className="p-4 border border-[var(--border)] rounded-xl bg-[var(--background)] max-h-60 overflow-y-auto whitespace-pre-wrap text-[var(--muted)] text-xs leading-relaxed">
                                                     {result.proposal || result.proposalMarkdown || 'AI Generated Proposal Content...'}
                                                 </div>
-                                                <button className="mt-6 w-full py-2 border border-[var(--accent)] text-[var(--accent)] rounded-lg text-xs font-bold uppercase hover:bg-[var(--accent)] hover:text-white transition-all">
-                                                    Download Full PDF
+                                                <button 
+                                                    onClick={() => {
+                                                        const content = result.proposal || result.proposalMarkdown;
+                                                        if (!content) return;
+                                                        const blob = new Blob([content], { type: 'text/plain' });
+                                                        const url = URL.createObjectURL(blob);
+                                                        const a = document.createElement('a');
+                                                        a.href = url;
+                                                        a.download = `Proposal_${proposalData.title.replace(/\s+/g, '_') || 'Draft'}.txt`;
+                                                        a.click();
+                                                        URL.revokeObjectURL(url);
+                                                    }}
+                                                    className="mt-6 w-full py-2 border border-[var(--accent)] text-[var(--accent)] rounded-lg text-xs font-bold uppercase hover:bg-[var(--accent)] hover:text-white transition-all"
+                                                >
+                                                    Download Proposal Document
                                                 </button>
                                             </div>
                                         )}

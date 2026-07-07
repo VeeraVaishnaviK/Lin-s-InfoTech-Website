@@ -77,25 +77,7 @@ class MockLangchainModel:
                 human_content = m.content
                 
         # Route to appropriate mock generator based on system prompt or messages
-        if "Estimator" in system_content or "estimate" in system_content.lower() or "budget" in system_content.lower():
-            # Estimate
-            features = "Custom app features"
-            scale = "Small"
-            platform = "Web"
-            features_match = re.search(r"Features:\s*(.*?)\n", human_content, re.DOTALL | re.IGNORECASE)
-            if features_match:
-                features = features_match.group(1).strip()
-            scale_match = re.search(r"Complexity/Scale:\s*(.*?)\n", human_content, re.IGNORECASE)
-            if scale_match:
-                scale = scale_match.group(1).strip()
-            platform_match = re.search(r"Platform:\s*(.*)$", human_content, re.IGNORECASE)
-            if platform_match:
-                platform = platform_match.group(1).strip()
-                
-            data = generate_mock_estimate(features, scale, platform)
-            return MockLangchainResponse(json.dumps(data))
-            
-        elif "proposal" in system_content.lower() or "Architect" in system_content or "proposal" in human_content.lower():
+        if "proposal" in system_content.lower() or "Architect" in system_content or "proposal" in human_content.lower():
             # Proposal
             title = "My App"
             goals = "Scale business"
@@ -112,6 +94,24 @@ class MockLangchainModel:
                 
             proposal_md = generate_mock_proposal(title, goals, audience)
             return MockLangchainResponse(proposal_md)
+            
+        elif "Estimator" in system_content or "estimate" in system_content.lower() or "budget" in system_content.lower():
+            # Estimate
+            features = "Custom app features"
+            scale = "Small"
+            platform = "Web"
+            features_match = re.search(r"Features:\s*(.*?)\n", human_content, re.DOTALL | re.IGNORECASE)
+            if features_match:
+                features = features_match.group(1).strip()
+            scale_match = re.search(r"Complexity/Scale:\s*(.*?)\n", human_content, re.IGNORECASE)
+            if scale_match:
+                scale = scale_match.group(1).strip()
+            platform_match = re.search(r"Platform:\s*(.*)$", human_content, re.IGNORECASE)
+            if platform_match:
+                platform = platform_match.group(1).strip()
+                
+            data = generate_mock_estimate(features, scale, platform)
+            return MockLangchainResponse(json.dumps(data))
             
         elif "Lead Quality Engineer" in system_content or "Analyzer" in system_content or "extract" in system_content.lower():
             # Analyzer
